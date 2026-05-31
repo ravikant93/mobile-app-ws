@@ -1,9 +1,18 @@
 package com.appsdeveloperblog.app.ws.ui.model.response;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class UserRest {
+	//@NotNull(message="firstname cannot be null")
  private String firstname;
+	//@NotNull(message="lasttname cannot be null")
  private String lastname;
+	//(message="Email cannot be null")
+	//@Email
  private String email;
+	//
  private String userId;
  private String Password;
  
