@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.appsdeveloperblog.app.ws.ui.model.response.UserRest;
 import com.appsdeveloperblog.app.ws.ui.model.resquest.userDetailsRequestModel;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/users")
@@ -60,7 +62,7 @@ public class UserController {
 			  				MediaType.APPLICATION_JSON_VALUE},
 					produces= {	MediaType.APPLICATION_XML_VALUE,
 								MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity <UserRest> createUser(@RequestBody userDetailsRequestModel userDetails)
+	public ResponseEntity <UserRest> createUser(@Valid @RequestBody userDetailsRequestModel userDetails)
 	{
 		 UserRest returnValue=new UserRest();
 		  returnValue.setFirstname(userDetails.getFirstname()); 

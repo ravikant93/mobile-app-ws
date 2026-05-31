@@ -1,9 +1,20 @@
 package com.appsdeveloperblog.app.ws.ui.model.resquest;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class userDetailsRequestModel {
+	@NotBlank(message="firsttname cannot be blank")// NotBlank is better than notnull constarint a
 	private String firstname;
+	@NotNull(message="lasttname cannot be null")
 	private String lastname;
+	@NotBlank(message="email cannot be blank")
+	@Email
 	private String email;
+	@NotNull(message="password cannot be blank")
+	@Size(min=8,max=16,message="Userid must be more than 8 and less than 16")
 	private String password;
 	
 	public String getFirstname() {
