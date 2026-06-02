@@ -1,5 +1,9 @@
 package com.appsdeveloperblog.app.ws.ui.controller;
  
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +26,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+	
+	Map<String,UserRest> users;
 	/*
 	  @GetMapping(path="/{userId}", 
 	  produces= {MediaType.APPLICATION_XML_VALUE,
@@ -39,14 +45,20 @@ public class UserController {
 			  MediaType.APPLICATION_JSON_VALUE}) 
 				public ResponseEntity<UserRest> getUser(@PathVariable String userId) //responseEntity is used for setting the status code
 			  {
-				  UserRest returnValue=new UserRest();
+				 /* UserRest returnValue=new UserRest();
 				  returnValue.setFirstname("ravi"); 
 				  returnValue.setLastname("kant");
 				  returnValue.setEmail("test@gmail.com");
 				  returnValue.setUserId(userId);
 				  
 				  return new ResponseEntity<UserRest>(returnValue, HttpStatus.ACCEPTED);// response Entity is setting the status code(here 202) in the return value.
-				  
+				  */
+				if(users.containsKey(userId))
+				{
+					return new ResponseEntity<>(users.get(userId), HttpStatus.OK);
+				}
+				else
+					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			  }
 	
 	@GetMapping
@@ -69,8 +81,13 @@ public class UserController {
 		  returnValue.setLastname(userDetails.getLastname());
 		  returnValue.setEmail(userDetails.getEmail());
 		  returnValue.setPassword(userDetails.getPassword());
-		 // returnValue.setUserId(userDetails.getUserId());
-		 // retur
+		  
+		  
+		  String UserId=UUID.randomUUID().toString();
+		  returnValue.setUserId(UserId);
+		  if(users==null) users=new HashMap<>();
+		  users.put(UserId, returnValue); 
+		 
 		  
 		  return new ResponseEntity<UserRest>(returnValue, HttpStatus.CREATED);	
 	}
