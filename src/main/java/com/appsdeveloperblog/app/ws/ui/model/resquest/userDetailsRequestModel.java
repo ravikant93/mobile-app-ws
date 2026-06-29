@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class userDetailsRequestModel {
-	@NotBlank(message="firsttname cannot be blank")// NotBlank is better than notnull constarint a
+	@NotBlank(message="firsttname cannot be blank")// NotBlank is better than notnull constarint c
 	private String firstname;
 	@NotNull(message="lasttname cannot be null")
 	private String lastname;

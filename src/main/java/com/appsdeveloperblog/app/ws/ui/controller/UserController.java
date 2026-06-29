@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.appsdeveloperblog.app.ws.ui.model.response.UserRest;
+import com.appsdeveloperblog.app.ws.ui.model.resquest.updateUserDetailsModel;
 import com.appsdeveloperblog.app.ws.ui.model.resquest.userDetailsRequestModel;
 
 import jakarta.validation.Valid;
@@ -41,8 +43,9 @@ public class UserController {
 		  return returnValue;
 	  }
 	  */
-	@GetMapping(path="/{userId}", produces= {MediaType.APPLICATION_XML_VALUE,
-			  MediaType.APPLICATION_JSON_VALUE}) 
+	@GetMapping(path="/{userId}", 
+			produces= {MediaType.APPLICATION_XML_VALUE,
+						MediaType.APPLICATION_JSON_VALUE}) 
 				public ResponseEntity<UserRest> getUser(@PathVariable String userId) //responseEntity is used for setting the status code
 			  {
 				 /* UserRest returnValue=new UserRest();
@@ -91,15 +94,26 @@ public class UserController {
 		  
 		  return new ResponseEntity<UserRest>(returnValue, HttpStatus.CREATED);	
 	}
-	@PutMapping
-	public String UpdateUser()
+	@PutMapping(path="/{userId}", 
+			produces= {MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_VALUE},
+			consumes= {MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_VALUE})
+	public UserRest UpdateUser(@PathVariable String userId, @Valid @RequestBody updateUserDetailsModel userDetails)
 	{
-		return "Update user was called";			
+		UserRest StoredUserDetails = users.get(userId);
+		StoredUserDetails.setFirstname(userDetails.getFirstname());
+		StoredUserDetails.setLastname(userDetails.getLastname());
+		
+		users.put(userId, StoredUserDetails);
+		
+		return StoredUserDetails;			
 	}
-	@DeleteMapping
-	public String DeleteUser()
+	@DeleteMapping(path="/{id}")
+	public ResponseEntity<Void> DeleteUser(@PathVariable String id)
 	{
-		return "Delete user was called now 	";
+		users.remove(id);
+		return ResponseEntity.noContent().build();
 				
 	} 	
 }
